@@ -4,12 +4,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RepositoryInfra")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("CustomInfra.DataBase.Simple")]
+[assembly: AssemblyDescription("Automatic Reflection Dependency Injection")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("RepositoryInfra")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCompany("JoelNetoDev")]
+[assembly: AssemblyProduct("CustomInfra.DataBase.Simple")]
+[assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

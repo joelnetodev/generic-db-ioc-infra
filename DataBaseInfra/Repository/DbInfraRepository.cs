@@ -19,20 +19,20 @@ namespace CustomInfra.DataBase.Simple.Repository
         {
             get
             {
-                if(_dbContext == null || _dbContext.Disposed)
+                if (_dbContext == null || _dbContext.Disposed)
                     _dbContext = IoCInfra.Container.GetInstance<IDbInfraContext>();
 
                 return _dbContext;
             }
         }
 
-        
+
         private DbSet<TEntity> _dbEntity;
         protected DbSet<TEntity> DbEntity
         {
             get
             {
-                if(_dbEntity == null || _dbContext == null || _dbContext.Disposed)
+                if (_dbEntity == null || _dbContext == null || _dbContext.Disposed)
                     _dbEntity = DbContext.Set<TEntity>();
 
                 return _dbEntity;
@@ -62,12 +62,12 @@ namespace CustomInfra.DataBase.Simple.Repository
             foreach (var obj in objs)
             {
                 DbContext.Entry(obj).State = EntityState.Modified;
-            }        
+            }
         }
 
         public void Delete(TEntity obj)
         {
-            Delete(new Collection<TEntity>{obj});
+            Delete(new Collection<TEntity> { obj });
         }
         public void Delete(IEnumerable<TEntity> objs)
         {
@@ -95,7 +95,7 @@ namespace CustomInfra.DataBase.Simple.Repository
         {
             return DbEntity.ToList();
         }
-        
+
 
 
         public void SaveChanges()

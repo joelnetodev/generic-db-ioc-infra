@@ -21,14 +21,14 @@ namespace CustomInfra.DataBase.Simple.DbContext
             : base(connectionString)
         {
             ConnectionString = connectionString;
-            Database.SetInitializer<DbContextInfra>(null);
+            //Database.SetInitializer<DbContextInfra>(null);
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             try
             {
-                base.OnModelCreating(modelBuilder);
+                //base.OnModelCreating(modelBuilder);
 
                 var assemblies = DbInfraAssemblyLocator.LoadDataBaseInfraAttributeAssemblies();
 
@@ -47,7 +47,7 @@ namespace CustomInfra.DataBase.Simple.DbContext
                 }
             }
             catch (ReflectionTypeLoadException)
-            {             
+            {
                 throw;
             }
             catch (Exception)
@@ -55,10 +55,10 @@ namespace CustomInfra.DataBase.Simple.DbContext
                 throw;
             }
         }
-        
+
         public DbRawSqlQuery<T> SqlQuery<T>(string queryString)
-        {            
-            return this.Database.SqlQuery<T>(queryString, new object[] {});
+        {
+            return this.Database.SqlQuery<T>(queryString, new object[] { });
         }
 
         public void DetectChanges()
