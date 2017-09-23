@@ -8,36 +8,39 @@ using SimpleInjector.Lifestyles;
 namespace CustomInfra.Injector.Simple.IoC
 {
     /// <summary>
-    /// Principal management class of Infra IoC
+    /// Principal class of Infra IoC
     /// </summary>
     public static class IoCInfra
     {
-        private static readonly SimpleInjector.Container _container;
-
-        static IoCInfra()
+        private static SimpleInjector.Container _simpleContainer;
+        private static SimpleInjector.Container SimpleContainer
         {
-            if (_container == null)
+            get
             {
-                _container = new SimpleInjector.Container();
-                _container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+                if (_simpleContainer == null)
+                {
+                    _simpleContainer = new SimpleInjector.Container();
+                    _simpleContainer.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+                }
+                return _simpleContainer;
             }
         }
 
 
         /// <summary>
-        /// Initiate a new scope for 'IoCInfraLifeCycle.Scoped' type registred
+        /// Initiate a new scope for 'IoCInfraLifeCycle.Scoped' type registered
         /// </summary>
         /// <returns>Simple Scope</returns>
-        public static Scope Scope()
+        public static Scope BeginScope()
         {
-            return AsyncScopedLifestyle.BeginScope(_container);
+            return AsyncScopedLifestyle.BeginScope(SimpleContainer);
         }
 
 
         /// <summary>
         /// Register all interfaces with 'IoCInfraInitiateAttribute' and its implementations
         /// </summary>
-        public static void InitiateAttributeRegistration()
+        public static void StartAttributeRegistration()
         {
             try
             {
@@ -46,7 +49,7 @@ namespace CustomInfra.Injector.Simple.IoC
                 if (!allAssemblies.Any()) return;
 
                 var interfacesWithAtt = allAssemblies.SelectMany(types => types.GetTypes()).Where(type =>
-                            type.GetCustomAttributes(typeof(IoCInfraInitiateAttribute), true).Length > 0).ToList();
+                            type.GetCustomAttributes(typeof(IoCInfraRegisterAttribute), true).Length > 0).ToList();
 
                 var assembliesWithClassImplementation = allAssemblies.Where(types =>
                             types.GetTypes().Any(typeImp => interfacesWithAtt.Any(i => i.IsAssignableFrom(typeImp)))).ToList();
@@ -68,10 +71,10 @@ namespace CustomInfra.Injector.Simple.IoC
                 throw;
             }
             catch (Exception)
-            {              
+            {
                 throw;
             }
-            
+
         }
 
         /// <summary>
@@ -79,7 +82,7 @@ namespace CustomInfra.Injector.Simple.IoC
         /// </summary>
         public static class Container
         {
-                       
+
             /// <summary>
             /// Register a interface and implementation in container
             /// </summary>
@@ -91,9 +94,9 @@ namespace CustomInfra.Injector.Simple.IoC
                 where T1 : class
                 where T2 : class
             {
-                _container.Register<T1>(() => (T1)Activator.CreateInstance(typeof(T2), objs), ChoseLife(life));
+                SimpleContainer.Register<T1>(() => (T1)Activator.CreateInstance(typeof(T2), objs), ChooseLife(life));
             }
-            
+
             /// <summary>
             /// Register a interface and implementation in container
             /// </summary>
@@ -104,7 +107,7 @@ namespace CustomInfra.Injector.Simple.IoC
                 where T1 : class
                 where T2 : class
             {
-                _container.Register(typeof(T1), typeof(T2), ChoseLife(life));
+                SimpleContainer.Register(typeof(T1), typeof(T2), ChooseLife(life));
             }
 
             /// <summary>
@@ -115,7 +118,7 @@ namespace CustomInfra.Injector.Simple.IoC
             /// <param name="transient">Indicates if is transient or not</param>
             public static void Register(Type T1, Type T2, IoCInfraLifeCycle life = IoCInfraLifeCycle.Singleton)
             {
-                _container.Register(T1, T2, ChoseLife(life));
+                SimpleContainer.Register(T1, T2, ChooseLife(life));
             }
 
 
@@ -127,7 +130,7 @@ namespace CustomInfra.Injector.Simple.IoC
             /// <returns>Instance of T</returns>
             public static T GetInstance<T>() where T : class
             {
-                return _container.GetInstance<T>();
+                return SimpleContainer.GetInstance<T>();
             }
 
             /// <summary>
@@ -137,10 +140,10 @@ namespace CustomInfra.Injector.Simple.IoC
             /// <returns>Instance of T</returns>
             public static object GetInstance(Type T)
             {
-                return _container.GetInstance(T);
+                return SimpleContainer.GetInstance(T);
             }
 
-            private static Lifestyle ChoseLife(IoCInfraLifeCycle life)
+            private static Lifestyle ChooseLife(IoCInfraLifeCycle life)
             {
                 switch (life)
                 {
