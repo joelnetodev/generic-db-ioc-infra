@@ -38,7 +38,7 @@ namespace CustomInfra.Injector.Simple.IoC
 
 
         /// <summary>
-        /// Register all interfaces with 'IoCInfraInitiateAttribute' and its implementations
+        /// Register all interfaces with 'IoCInfraRegisterAttribute' and its implementations
         /// </summary>
         public static void StartAttributeRegistration()
         {
