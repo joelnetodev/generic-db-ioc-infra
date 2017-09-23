@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-
+using System.Data.Entity;
 
 namespace CustomInfra.DataBase.Simple.Repository
 {
     /// <summary>
-    /// Infra Repository interface
+    /// Generic Infra Repository interface
     /// </summary>
     /// <typeparam name="TEntity">Entity</typeparam>
     public interface IDbInfraRepository<TEntity> where TEntity : class
@@ -65,14 +65,11 @@ namespace CustomInfra.DataBase.Simple.Repository
         ICollection<TEntity> GetAll();
 
         /// <summary>
-        /// Save changes in database context
+        /// Save changes on DbContext
         /// </summary>
-        void SaveChanges();
+        /// <param name="detectChanges">Indicates if search for changes in tracker</param>
+        void SaveChanges(bool detectChanges = false);
 
-        /// <summary>
-        /// Detect changes in changetracker of context
-        /// </summary>
-        void DetectChanges();
 
         /// <summary>
         /// Call Dispose of DbContext

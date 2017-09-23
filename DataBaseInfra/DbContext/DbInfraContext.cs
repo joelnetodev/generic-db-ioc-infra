@@ -17,18 +17,22 @@ namespace CustomInfra.DataBase.Simple.DbContext
 
         public string ConnectionString { get; private set; }
 
+        /// <summary>
+        /// DbContext class
+        /// </summary>
+        /// <param name="connectionString">Connection string name</param>
         public DbContextInfra(string connectionString)
             : base(connectionString)
         {
             ConnectionString = connectionString;
-            //Database.SetInitializer<DbContextInfra>(null);
+            Database.SetInitializer<DbContextInfra>(null);
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             try
             {
-                //base.OnModelCreating(modelBuilder);
+                base.OnModelCreating(modelBuilder);
 
                 var assemblies = DbInfraAssemblyLocator.LoadDataBaseInfraAttributeAssemblies();
 
@@ -56,20 +60,26 @@ namespace CustomInfra.DataBase.Simple.DbContext
             }
         }
 
-        public DbRawSqlQuery<T> SqlQuery<T>(string queryString)
+
+        public DbRawSqlQuery<T> SqlQuery<T>(string query)
         {
-            return this.Database.SqlQuery<T>(queryString, new object[] { });
+            return base.Database.SqlQuery<T>(query, new object[] { });
         }
 
-        public void DetectChanges()
+        public void SqlCommand(string command)
         {
-            this.ChangeTracker.DetectChanges();
+            base.Database.ExecuteSqlCommand(command, new object[] { });
         }
 
-        public void SaveChanges()
+
+        public void SaveChanges(bool detectChanges = false)
         {
-            this.SaveChanges();
+            if (detectChanges)
+                base.ChangeTracker.DetectChanges();
+
+            base.SaveChanges();
         }
+
 
         protected new void Dispose()
         {

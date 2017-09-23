@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using CustomInfra.DataBase.Simple.DbContext;
 using CustomInfra.Injector.Simple.IoC;
 
 namespace CustomInfra.DataBase.Simple.Repository
 {
     /// <summary>
-    /// Infra Repository class.
+    /// Infra Repository class
     /// </summary>
-    /// <typeparam name="TEntity">Entity</typeparam>
-    public class DbInfraRepository<TEntity> : IDbInfraRepository<TEntity> where TEntity : class
+    public class DbInfraRepository
     {
         private IDbInfraContext _dbContext;
-        protected IDbInfraContext DbContext
+
+        private IDbInfraContext DbContext
         {
             get
             {
@@ -26,92 +27,24 @@ namespace CustomInfra.DataBase.Simple.Repository
             }
         }
 
-
-        private DbSet<TEntity> _dbEntity;
-        protected DbSet<TEntity> DbEntity
+        /// <summary>
+        /// Execute a Sql Query
+        /// </summary>
+        /// <typeparam name="T">Type of projection</typeparam>
+        /// <param name="query">Sql query string</param>
+        /// <returns>Sql Query projected on T</returns>
+        public DbRawSqlQuery<T> SqlQuery<T>(string query)
         {
-            get
-            {
-                if (_dbEntity == null || _dbContext == null || _dbContext.Disposed)
-                    _dbEntity = DbContext.Set<TEntity>();
-
-                return _dbEntity;
-            }
+            return DbContext.SqlQuery<T>(query);
         }
 
-
-
-        public void Add(TEntity obj)
+        /// <summary>
+        /// Execute a Sql Query command
+        /// </summary>
+        /// <param name="command">Sql command string</param>
+        public void ExecuteSqlCommand(string command)
         {
-            Add(new Collection<TEntity> { obj });
-        }
-        public void Add(IEnumerable<TEntity> listObj)
-        {
-            foreach (var entity in listObj)
-            {
-                DbEntity.Add(entity);
-            }
-        }
-
-        public void Update(TEntity obj)
-        {
-            Update(new Collection<TEntity> { obj });
-        }
-        public void Update(IEnumerable<TEntity> objs)
-        {
-            foreach (var obj in objs)
-            {
-                DbContext.Entry(obj).State = EntityState.Modified;
-            }
-        }
-
-        public void Delete(TEntity obj)
-        {
-            Delete(new Collection<TEntity> { obj });
-        }
-        public void Delete(IEnumerable<TEntity> objs)
-        {
-            foreach (var obj in objs)
-            {
-                DbEntity.Remove(obj);
-            }
-        }
-
-
-
-        public void DeleteById(int id)
-        {
-            var obj = DbEntity.Find(id);
-            if (obj != null)
-            {
-                DbEntity.Remove(obj);
-            }
-        }
-        public TEntity GetById(int id)
-        {
-            return DbEntity.Find(id);
-        }
-        public ICollection<TEntity> GetAll()
-        {
-            return DbEntity.ToList();
-        }
-
-
-
-        public void SaveChanges()
-        {
-            DbContext.SaveChanges();
-        }
-        public void DetectChanges()
-        {
-            DbContext.DetectChanges();
-        }
-
-
-
-        public void DisposeDbContext()
-        {
-            DbContext.Dispose();
+            DbContext.SqlCommand(command);
         }
     }
 }

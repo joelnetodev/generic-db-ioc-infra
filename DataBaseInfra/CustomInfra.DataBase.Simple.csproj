@@ -64,7 +64,8 @@
     <Compile Include="Attribute\DataBaseInfraMapAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\DbInfraRepository.cs" />
-    <Compile Include="Repository\IDbInfraRepository.cs" />
+    <Compile Include="Repository\DbInfraRepositoryGen.cs" />
+    <Compile Include="Repository\IDbInfraRepositoryGen.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

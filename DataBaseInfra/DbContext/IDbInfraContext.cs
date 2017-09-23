@@ -32,25 +32,27 @@ namespace CustomInfra.DataBase.Simple.DbContext
         /// <summary>
         /// Execute a Sql Query that return results
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="queryString"></param>
-        /// <returns>Lista de T</returns>
-        DbRawSqlQuery<T> SqlQuery<T>(string queryString);
+        /// <typeparam name="T">Type of projection</typeparam>
+        /// <param name="query">Sql query string</param>
+        /// <returns>Sql Query projected on T</returns>
+        DbRawSqlQuery<T> SqlQuery<T>(string query);
 
         /// <summary>
-        /// Save changes in database context
+        /// Execute a Sql Query command
         /// </summary>
-        void SaveChanges();
+        /// <param name="command">Sql command string</param>
+        void SqlCommand(string command);
 
         /// <summary>
-        /// Detect changes in changetracker of context
+        /// Save changes on DbContext
         /// </summary>
-        void DetectChanges();
+        /// <param name="detectChanges">Indicates if search for changes in tracker</param>
+        void SaveChanges(bool detectChanges = false);
 
         /// <summary>
         /// DbEntity of database context
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">Ocject Entity</param>
         /// <returns></returns>
         DbEntityEntry Entry(object obj);
     }
