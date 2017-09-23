@@ -26,8 +26,18 @@ namespace CustomInfra.Injector.Simple
                 var startName = config["StartNameAssembly"] ?? string.Empty;
                 if (!string.IsNullOrEmpty(startName))
                 {
-                    _localAssemblies = _localAssemblies.Where(x =>
-                        x.FullName.StartsWith(startName)).ToArray();
+                    var namesSplited = startName.Split(';');
+
+                    _localAssemblies = _localAssemblies.Where(
+                        (x) => {
+                            bool retorno = false;
+
+                            foreach (var itemName in namesSplited)
+                                if (x.FullName.StartsWith(itemName))
+                                    retorno = true;
+
+                            return retorno;
+                        }).ToArray();
                 }
 
                 _localAssemblies = _localAssemblies.ToArray();

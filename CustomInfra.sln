@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataBase", "DataBase", "{61868B77-76FB-458D-AC55-AA80174692B4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - DataBase", "2 - DataBase", "{61868B77-76FB-458D-AC55-AA80174692B4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IoC", "IoC", "{FEA07066-BAB6-4C2C-BB71-5EAF810300B1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - IoC", "1 - IoC", "{FEA07066-BAB6-4C2C-BB71-5EAF810300B1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomInfra.DataBase.Simple", "DataBaseInfra\CustomInfra.DataBase.Simple.csproj", "{A94A650F-CC1A-46CE-9968-561DEF6E3229}"
 EndProject
