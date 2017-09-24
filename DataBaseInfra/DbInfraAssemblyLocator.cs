@@ -9,7 +9,7 @@ using CustomInfra.DataBase.Simple.Attribute;
 
 namespace CustomInfra.DataBase.Simple
 {
-    static class DbInfraAssemblyLocator
+    internal static class DbInfraAssemblyLocator
     {
         private static ICollection<Assembly> _localAssemblies { get; set; }
 

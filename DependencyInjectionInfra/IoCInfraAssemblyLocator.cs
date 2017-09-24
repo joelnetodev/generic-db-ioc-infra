@@ -8,7 +8,7 @@ using CustomInfra.Injector.Simple.Attribute;
 
 namespace CustomInfra.Injector.Simple
 {
-    static class IoCInfraAssemblyLocator
+    internal static class IoCInfraAssemblyLocator
     {
         private static ICollection<Assembly> _localAssemblies { get; set; }
 

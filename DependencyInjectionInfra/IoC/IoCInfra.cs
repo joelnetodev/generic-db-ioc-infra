@@ -4,6 +4,7 @@ using System.Reflection;
 using CustomInfra.Injector.Simple.Attribute;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
+using CustomInfra.Injector.Simple.Enums;
 
 namespace CustomInfra.Injector.Simple.IoC
 {
@@ -26,7 +27,6 @@ namespace CustomInfra.Injector.Simple.IoC
             }
         }
 
-
         /// <summary>
         /// Initiate a new scope for 'IoCInfraLifeCycle.Scoped' type registered
         /// </summary>
@@ -35,7 +35,6 @@ namespace CustomInfra.Injector.Simple.IoC
         {
             return AsyncScopedLifestyle.BeginScope(SimpleContainer);
         }
-
 
         /// <summary>
         /// Register all interfaces with 'IoCInfraRegisterAttribute' and its implementations
@@ -96,7 +95,6 @@ namespace CustomInfra.Injector.Simple.IoC
             {
                 SimpleContainer.Register<T1>(() => (T1)Activator.CreateInstance(typeof(T2), objs), ChooseLife(life));
             }
-
             /// <summary>
             /// Register a interface and implementation in container
             /// </summary>
@@ -109,7 +107,6 @@ namespace CustomInfra.Injector.Simple.IoC
             {
                 SimpleContainer.Register(typeof(T1), typeof(T2), ChooseLife(life));
             }
-
             /// <summary>
             /// Register a interface and implementation in container
             /// </summary>
@@ -121,8 +118,6 @@ namespace CustomInfra.Injector.Simple.IoC
                 SimpleContainer.Register(T1, T2, ChooseLife(life));
             }
 
-
-
             /// <summary>
             /// Get instance in container
             /// </summary>
@@ -132,7 +127,6 @@ namespace CustomInfra.Injector.Simple.IoC
             {
                 return SimpleContainer.GetInstance<T>();
             }
-
             /// <summary>
             /// Get instance in container
             /// </summary>

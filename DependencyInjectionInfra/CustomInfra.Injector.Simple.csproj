@@ -54,8 +54,8 @@
   <ItemGroup>
     <Compile Include="IoC\IoCInfra.cs" />
     <Compile Include="IoCInfraAssemblyLocator.cs" />
-    <Compile Include="Attribute\IoCInfraInitiateAttribute.cs" />
-    <Compile Include="IoC\LifeCycleEnum.cs" />
+    <Compile Include="Attribute\IoCInfraRegisterAttribute.cs" />
+    <Compile Include="Enums\LifeCycleEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
