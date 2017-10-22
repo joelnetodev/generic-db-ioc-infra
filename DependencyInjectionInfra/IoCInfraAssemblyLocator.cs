@@ -13,7 +13,7 @@ namespace CustomInfra.Injector.Simple
         private static ICollection<Assembly> _localAssemblies { get; set; }
 
         /// <summary>
-        /// Retorna uma lista com todas as dlls com o atributo 'IoCInfraInitiateAttribute'
+        /// Loads the assemblies in StartNameAssemblies configuration from CurrentAppDomain
         /// </summary>
         /// <returns></returns>
         public static ICollection<Assembly> LoadDependencyInjectorAttributeAssemblies()
@@ -23,10 +23,10 @@ namespace CustomInfra.Injector.Simple
                 _localAssemblies = AppDomain.CurrentDomain.GetAssemblies();
 
                 var config = (NameValueCollection)ConfigurationManager.GetSection("CustomInfra.Injector.Simple");
-                var startName = config["StartNameAssembly"] ?? string.Empty;
+                var startName = config["StartNameAssemblies"] ?? string.Empty;
                 if (!string.IsNullOrEmpty(startName))
                 {
-                    var namesSplited = startName.Split(';');
+                    var namesSplited = startName.Split(',');
 
                     _localAssemblies = _localAssemblies.Where(
                         (x) => {
@@ -39,8 +39,6 @@ namespace CustomInfra.Injector.Simple
                             return retorno;
                         }).ToArray();
                 }
-
-                _localAssemblies = _localAssemblies.ToArray();
             }
 
             return _localAssemblies;

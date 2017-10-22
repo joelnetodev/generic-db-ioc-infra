@@ -88,7 +88,7 @@ namespace CustomInfra.Injector.Simple.IoC
             /// <typeparam name="T1"></typeparam>
             /// <typeparam name="T2"></typeparam>
             /// <param name="objs">Constructor parameter</param>
-            /// <param name="transient">Indicates if is transient or singleton</param>
+            /// <param name="life">Lifecycle of the instance</param>
             public static void Register<T1, T2>(IoCInfraLifeCycle life = IoCInfraLifeCycle.Singleton, params object[] objs)
                 where T1 : class
                 where T2 : class
@@ -100,7 +100,7 @@ namespace CustomInfra.Injector.Simple.IoC
             /// </summary>
             /// <typeparam name="T1">Interface</typeparam>
             /// <typeparam name="T2">Implementation</typeparam>
-            /// <param name="transient">Indicates if is transient singleton</param>
+            /// <param name="life">Lifecycle of the instance</param>
             public static void Register<T1, T2>(IoCInfraLifeCycle life = IoCInfraLifeCycle.Singleton)
                 where T1 : class
                 where T2 : class
@@ -112,7 +112,7 @@ namespace CustomInfra.Injector.Simple.IoC
             /// </summary>
             /// <param name="T1">Interface</param>
             /// <param name="T2">Implementation</param>
-            /// <param name="transient">Indicates if is transient or not</param>
+            /// <param name="life">Lifecycle of the instance</param>
             public static void Register(Type T1, Type T2, IoCInfraLifeCycle life = IoCInfraLifeCycle.Singleton)
             {
                 SimpleContainer.Register(T1, T2, ChooseLife(life));

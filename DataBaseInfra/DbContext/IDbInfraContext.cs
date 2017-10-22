@@ -38,7 +38,7 @@ namespace CustomInfra.DataBase.Simple.DbContext
         /// <typeparam name="T">Type of projection</typeparam>
         /// <param name="query">Sql query string</param>
         /// <returns>Sql Query projected on T</returns>
-        DbRawSqlQuery<T> SqlQuery<T>(string query);
+        DbRawSqlQuery<T> SqlQuery<T>(string query) where T : class;
 
         /// <summary>
         /// Execute a Sql Query command

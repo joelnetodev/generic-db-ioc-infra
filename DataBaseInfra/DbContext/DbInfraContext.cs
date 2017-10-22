@@ -18,11 +18,11 @@ namespace CustomInfra.DataBase.Simple.DbContext
         /// Indicates if the DbContext Object has been disposed
         /// </summary>
         public bool Disposed { get; private set; }
-
         /// <summary>
         /// Returns the Connction String name of DbContext
         /// </summary>
         public string ConnectionString { get; private set; }
+
 
         /// <summary>
         /// DbContext class
@@ -34,7 +34,6 @@ namespace CustomInfra.DataBase.Simple.DbContext
             ConnectionString = connectionString;
             Database.SetInitializer<DbInfraContext>(null);
         }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             try
@@ -57,7 +56,8 @@ namespace CustomInfra.DataBase.Simple.DbContext
             }
         }
 
-        public DbRawSqlQuery<T> SqlQuery<T>(string query)
+
+        public DbRawSqlQuery<T> SqlQuery<T>(string query) where T:class
         {
             return base.Database.SqlQuery<T>(query, new object[] { });
         }
@@ -66,6 +66,7 @@ namespace CustomInfra.DataBase.Simple.DbContext
             base.Database.ExecuteSqlCommand(command, new object[] { });
         }
 
+
         public void SaveChanges(bool detectChanges = false)
         {
             if (detectChanges)
@@ -73,6 +74,7 @@ namespace CustomInfra.DataBase.Simple.DbContext
 
             base.SaveChanges();
         }
+
 
         protected new void Dispose()
         {
@@ -83,6 +85,7 @@ namespace CustomInfra.DataBase.Simple.DbContext
         }
         protected override void Dispose(bool disposing)
         {
+            
             this.Disposed = true;
             ConnectionString = null;
 

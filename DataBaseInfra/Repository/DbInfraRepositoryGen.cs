@@ -30,7 +30,9 @@ namespace CustomInfra.DataBase.Simple.Repository
 
 
         private DbSet<TEntity> _dbEntity;
-
+        /// <summary>
+        /// Entity of respository 
+        /// </summary>
         protected DbSet<TEntity> DbEntity
         {
             get
@@ -43,24 +45,34 @@ namespace CustomInfra.DataBase.Simple.Repository
         }
 
         /// <summary>
+        /// Set other entity in  context
+        /// </summary>
+        protected DbSet<T> SetDbEntity<T>() where T : class
+        {
+            return DbContext.Set<T>();
+        }
+
+
+
+        /// <summary>
         /// Execute a Sql Query
         /// </summary>
         /// <typeparam name="T">Type of projection</typeparam>
         /// <param name="query">Sql query string</param>
         /// <returns>Sql Query projected on T</returns>
-        public DbRawSqlQuery<T> SqlQuery<T>(string query)
+        protected DbRawSqlQuery<T> SqlQuery<T>(string query) where T : class
         {
             return DbContext.SqlQuery<T>(query);
         }
-
         /// <summary>
         /// Execute a Sql Query command
         /// </summary>
         /// <param name="command">Sql command string</param>
-        public void SqlCommand(string command)
+        protected void SqlCommand(string command)
         {
             DbContext.SqlCommand(command);
         }
+
 
 
         public void Add(TEntity obj)
