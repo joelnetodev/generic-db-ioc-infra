@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
 
 namespace CustomInfra.DataBase.Simple.Repository
 {

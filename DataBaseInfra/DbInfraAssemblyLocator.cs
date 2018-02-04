@@ -4,7 +4,6 @@ using System.Collections.Specialized;
 using System.Configuration;
 using System.Linq;
 using System.Reflection;
-using CustomInfra.DataBase.Simple.Attribute;
 
 
 namespace CustomInfra.DataBase.Simple

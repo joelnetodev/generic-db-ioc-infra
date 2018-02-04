@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Configuration;
 using System.Linq;
-using System.Reflection;
 using CustomInfra.DataBase.Simple.Attribute;
 using CustomInfra.Injector.Simple.IoC;
 using CustomInfra.DataBase.Simple.DbContext;
-using System.Collections.ObjectModel;
 using CustomInfra.Injector.Simple.Enums;
 using SimpleInjector.Lifestyles;
 using System.Data;
 using SimpleInjector;
 using System.Data.Entity;
 
-namespace CustomInfra.DataBase.Simple.Configuration
+namespace CustomInfra.DataBase.Simple.DbConfig
 {
     public class DbInfra
     {
@@ -76,8 +72,9 @@ namespace CustomInfra.DataBase.Simple.Configuration
         }
 
         /// <summary>
-        /// Begin a new DbContextScope for DbContex and start a new transaction with the chosen Isolation Level
+        /// Begin a new DbContextScope for DbContex and start a new transaction
         /// </summary>
+        /// <param name="isolationLevel">Isolation level of the transaction</param>
         /// <returns></returns>
         public static DbContextScope BeginDbContextScopeWithTransaction(IsolationLevel isolationLevel)
         {
@@ -95,7 +92,7 @@ namespace CustomInfra.DataBase.Simple.Configuration
             /// <returns></returns>
             public DbContextScope()
             {
-                _scope = AsyncScopedLifestyle.BeginScope(IoCInfra.Container.GetSimpleInjectorContainer);
+                _scope = AsyncScopedLifestyle.BeginScope(IoCInfra.Container.GetSimpleInjectorContainer());
             }
 
             /// <summary>
@@ -104,7 +101,7 @@ namespace CustomInfra.DataBase.Simple.Configuration
             /// <returns></returns>
             public DbContextScope(IsolationLevel isolationLevel)
             {
-                _scope = AsyncScopedLifestyle.BeginScope(IoCInfra.Container.GetSimpleInjectorContainer);
+                _scope = AsyncScopedLifestyle.BeginScope(IoCInfra.Container.GetSimpleInjectorContainer());
 
                 _transaction = IoCInfra.Container.GetInstance<IDbInfraContext>().BeginTransaction(isolationLevel);
             }
@@ -114,7 +111,7 @@ namespace CustomInfra.DataBase.Simple.Configuration
             /// </summary>
             public void Commit()
             {
-                if (IsWithTransactionActive)
+                if (IsTransactionActive)
                     _transaction.Commit();
             }
 
@@ -123,26 +120,21 @@ namespace CustomInfra.DataBase.Simple.Configuration
             /// </summary>
             public void RollBack()
             {
-                if (IsWithTransactionActive)
+                if (IsTransactionActive)
                     _transaction.Rollback();
             }
 
             /// <summary>
-            /// The current instance of DbContext
+            /// Indicates whether the scope has an active transaction
             /// </summary>
-            public IDbInfraContext CurrentDbContext
-            {
-                get { return IoCInfra.Container.GetInstance<IDbInfraContext>(); }
-            }
-
-            public bool IsWithTransactionActive
+            public bool IsTransactionActive
             {
                 get { return _transaction != null; }
             }
 
             public void Dispose()
             {
-                if(IsWithTransactionActive)
+                if(IsTransactionActive)
                 {
                     _transaction.Dispose();
                     _transaction = null;

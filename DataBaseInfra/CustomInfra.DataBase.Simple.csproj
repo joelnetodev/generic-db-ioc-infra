@@ -60,7 +60,7 @@
   <ItemGroup>
     <Compile Include="DbContext\IDbInfraContext.cs" />
     <Compile Include="DbContext\DbInfraContext.cs" />
-    <Compile Include="Configuration\DbInfraConfiguration.cs" />
+    <Compile Include="DbConfig\DbInfra.cs" />
     <Compile Include="DbInfraAssemblyLocator.cs" />
     <Compile Include="Attribute\DbInfraMapAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

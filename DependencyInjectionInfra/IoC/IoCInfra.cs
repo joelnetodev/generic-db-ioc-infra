@@ -162,9 +162,9 @@ namespace CustomInfra.Injector.Simple.IoC
             /// <summary>
             /// Get the instance of Simple Injector Container instead of the Custom API
             /// </summary>
-            public static SimpleInjector.Container GetSimpleInjectorContainer
+            public static SimpleInjector.Container GetSimpleInjectorContainer()
             {
-                get { return SimpleContainer; }
+                return SimpleContainer;
             }
         }
     }

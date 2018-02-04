@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CustomInfra.Injector.Simple.Enums
+﻿namespace CustomInfra.Injector.Simple.Enums
 {
     /// <summary>
     /// Enum of types of LifeCycle to register

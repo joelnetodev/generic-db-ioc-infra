@@ -2,11 +2,8 @@
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
 using System.Reflection;
-using CustomInfra.DataBase.Simple.Attribute;
-using CustomInfra.DataBase.Simple.Configuration;
+using CustomInfra.DataBase.Simple.DbConfig;
 
 namespace CustomInfra.DataBase.Simple.DbContext
 {

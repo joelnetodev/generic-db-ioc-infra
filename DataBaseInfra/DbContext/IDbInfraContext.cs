@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Reflection;
 
 namespace CustomInfra.DataBase.Simple.DbContext
 {
