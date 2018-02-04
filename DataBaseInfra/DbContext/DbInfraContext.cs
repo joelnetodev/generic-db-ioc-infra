@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration;
@@ -34,6 +35,7 @@ namespace CustomInfra.DataBase.Simple.DbContext
             ConnectionString = connectionString;
             Database.SetInitializer<DbInfraContext>(null);
         }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             try
@@ -57,11 +59,11 @@ namespace CustomInfra.DataBase.Simple.DbContext
         }
 
 
-        public DbRawSqlQuery<T> SqlQuery<T>(string query) where T:class
+        public DbRawSqlQuery<T> ExecuteSqlQuery<T>(string query) where T:class
         {
             return base.Database.SqlQuery<T>(query, new object[] { });
         }
-        public void SqlCommand(string command)
+        public void ExecuteSqlCommand(string command)
         {
             base.Database.ExecuteSqlCommand(command, new object[] { });
         }
@@ -75,6 +77,10 @@ namespace CustomInfra.DataBase.Simple.DbContext
             base.SaveChanges();
         }
 
+        public DbContextTransaction BeginTransaction(IsolationLevel isolationLevel)
+        {
+            return base.Database.BeginTransaction(isolationLevel);
+        }
 
         protected new void Dispose()
         {

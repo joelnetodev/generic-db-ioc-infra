@@ -13,17 +13,22 @@ namespace CustomInfra.Injector.Simple.IoC
     /// </summary>
     public static class IoCInfra
     {
+        private static object _lockObj { get; set; }
+
         private static SimpleInjector.Container _simpleContainer;
         private static SimpleInjector.Container SimpleContainer
         {
             get
             {
-                if (_simpleContainer == null)
+                lock (_lockObj)
                 {
-                    _simpleContainer = new SimpleInjector.Container();
-                    _simpleContainer.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
-                }
-                return _simpleContainer;
+                    if (_simpleContainer == null)
+                    {
+                        _simpleContainer = new SimpleInjector.Container();
+                        _simpleContainer.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+                    }
+                    return _simpleContainer;
+                }             
             }
         }
 
@@ -34,6 +39,11 @@ namespace CustomInfra.Injector.Simple.IoC
         public static Scope BeginScope()
         {
             return AsyncScopedLifestyle.BeginScope(SimpleContainer);
+        }
+
+        static IoCInfra()
+        {
+            _lockObj = new object();
         }
 
         /// <summary>
@@ -75,6 +85,8 @@ namespace CustomInfra.Injector.Simple.IoC
             }
 
         }
+
+
 
         /// <summary>
         /// Custom client IoC container API
@@ -145,6 +157,14 @@ namespace CustomInfra.Injector.Simple.IoC
                     case IoCInfraLifeCycle.Singleton: return Lifestyle.Singleton;
                     default: return Lifestyle.Scoped;
                 }
+            }
+
+            /// <summary>
+            /// Get the instance of Simple Injector Container instead of the Custom API
+            /// </summary>
+            public static SimpleInjector.Container GetSimpleInjectorContainer
+            {
+                get { return SimpleContainer; }
             }
         }
     }

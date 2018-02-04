@@ -33,9 +33,9 @@ namespace CustomInfra.DataBase.Simple.Repository
         /// <typeparam name="T">Type of projection</typeparam>
         /// <param name="query">Sql query string</param>
         /// <returns>Sql Query projected on T</returns>
-        protected DbRawSqlQuery<T> SqlQuery<T>(string query) where T:class
+        protected DbRawSqlQuery<T> ExecuteSqlQuery<T>(string query) where T:class
         {
-            return DbContext.SqlQuery<T>(query);
+            return DbContext.ExecuteSqlQuery<T>(query);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace CustomInfra.DataBase.Simple.Repository
         /// <param name="command">Sql command string</param>
         protected void ExecuteSqlCommand(string command)
         {
-            DbContext.SqlCommand(command);
+            DbContext.ExecuteSqlCommand(command);
         }
     }
 }

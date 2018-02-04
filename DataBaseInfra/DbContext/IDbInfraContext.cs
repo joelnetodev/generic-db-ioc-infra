@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration;
@@ -38,13 +39,13 @@ namespace CustomInfra.DataBase.Simple.DbContext
         /// <typeparam name="T">Type of projection</typeparam>
         /// <param name="query">Sql query string</param>
         /// <returns>Sql Query projected on T</returns>
-        DbRawSqlQuery<T> SqlQuery<T>(string query) where T : class;
+        DbRawSqlQuery<T> ExecuteSqlQuery<T>(string query) where T : class;
 
         /// <summary>
-        /// Execute a Sql Query command
+        /// Execute a Sql command
         /// </summary>
         /// <param name="command">Sql command string</param>
-        void SqlCommand(string command);
+        void ExecuteSqlCommand(string command);
 
         /// <summary>
         /// Save changes on DbContext
@@ -58,5 +59,12 @@ namespace CustomInfra.DataBase.Simple.DbContext
         /// <param name="obj">Ocject Entity</param>
         /// <returns></returns>
         DbEntityEntry Entry(object obj);
+
+        /// <summary>
+        /// Returns a new instance of DbContextTransaction
+        /// </summary>
+        /// <param name="isolationLevel">Transaction Isolation Level</param>
+        /// <returns></returns>
+        DbContextTransaction BeginTransaction(IsolationLevel isolationLevel);
     }
 }

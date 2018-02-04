@@ -11,35 +11,30 @@ namespace CustomInfra.DataBase.Simple
 {
     internal static class DbInfraAssemblyLocator
     {
-        private static ICollection<Assembly> _localAssemblies { get; set; }
-
         /// <summary>
         /// Loads the assemblies in StartNameAssemblies configuration from CurrentAppDomain
         /// </summary>
         /// <returns></returns>
         public static ICollection<Assembly> LoadDataBaseInfraAttributeAssemblies()
         {
-            if (_localAssemblies == null)
+            var _localAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+            var config = (NameValueCollection)ConfigurationManager.GetSection("CustomInfra.DataBase.Simple");
+            var startName = config["StartNameAssemblies"] ?? string.Empty;
+            if (!string.IsNullOrEmpty(startName))
             {
-                _localAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+                var namesSplited = startName.Split(',');
 
-                var config = (NameValueCollection)ConfigurationManager.GetSection("CustomInfra.DataBase.Simple");
-                var startName = config["StartNameAssemblies"] ?? string.Empty;
-                if (!string.IsNullOrEmpty(startName))
-                {
-                    var namesSplited = startName.Split(',');
+                _localAssemblies = _localAssemblies.Where(
+                    (x) => {
+                        bool retorno = false;
 
-                    _localAssemblies = _localAssemblies.Where(
-                        (x) => {
-                            bool retorno = false;
+                        foreach (var itemName in namesSplited)
+                            if (x.FullName.StartsWith(itemName))
+                                retorno = true;
 
-                            foreach (var itemName in namesSplited)
-                                if (x.FullName.StartsWith(itemName))
-                                    retorno = true;
-
-                            return retorno;
-                        }).ToArray();
-                }
+                        return retorno;
+                    }).ToArray();
             }
 
             return _localAssemblies;
