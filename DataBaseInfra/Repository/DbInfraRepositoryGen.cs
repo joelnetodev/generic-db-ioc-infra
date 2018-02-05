@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -137,9 +136,9 @@ namespace CustomInfra.DataBase.Simple.Repository
 
 
 
-        public void SaveChanges(bool detectChanges = false)
+        public void SaveChanges(bool commitCurrentTransaction = false)
         {
-            DbContext.SaveChanges(detectChanges);
+            DbContext.SaveChanges(commitCurrentTransaction);
         }
         
         public void DisposeDbContext()

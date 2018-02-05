@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CustomInfra.Injector.Simple.Enums
+﻿namespace CustomInfra.Injector.Simple.Enums
 {
     /// <summary>
     /// Enum of types of LifeCycle to register
@@ -22,8 +16,8 @@ namespace CustomInfra.Injector.Simple.Enums
         Singleton = 3,
 
         /// <summary>
-        /// Same instance every call inside a scope. Disposed when scope ends.
+        /// Same instance every call inside of the scope of WebRequest. Disposes when EndRequest.
         /// </summary>
-        Scoped = 7
+        WebRequest = 7,
     }
 }

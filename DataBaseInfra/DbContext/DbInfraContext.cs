@@ -2,11 +2,8 @@
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
 using System.Reflection;
-using CustomInfra.DataBase.Simple.Attribute;
-using CustomInfra.DataBase.Simple.Configuration;
+using CustomInfra.DataBase.Simple.Db;
 
 namespace CustomInfra.DataBase.Simple.DbContext
 {
@@ -24,6 +21,9 @@ namespace CustomInfra.DataBase.Simple.DbContext
         /// </summary>
         public string ConnectionString { get; private set; }
 
+        private bool IsTransatcionCommited { get; set; }
+        private DbContextTransaction CurrentTransacion { get; set; }
+
 
         /// <summary>
         /// DbContext class
@@ -34,6 +34,20 @@ namespace CustomInfra.DataBase.Simple.DbContext
         {
             ConnectionString = connectionString;
             Database.SetInitializer<DbInfraContext>(null);
+        }
+
+        /// <summary>
+        /// DbContext class with transaction started
+        /// </summary>
+        /// <param name="connectionString">Connection string name</param>
+        ///  /// <param name="isolationLevel">Isolation Level of the transaction</param>
+        public DbInfraContext(string connectionString, IsolationLevel isolationLevel)
+           : base(connectionString)
+        {
+            ConnectionString = connectionString;
+            Database.SetInitializer<DbInfraContext>(null);
+
+            CurrentTransacion = base.Database.BeginTransaction(isolationLevel);
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -69,33 +83,37 @@ namespace CustomInfra.DataBase.Simple.DbContext
         }
 
 
-        public void SaveChanges(bool detectChanges = false)
+        public void SaveChanges(bool commitCurrentTransaction = false)
         {
-            if (detectChanges)
-                base.ChangeTracker.DetectChanges();
-
+            base.ChangeTracker.DetectChanges();
             base.SaveChanges();
+
+            if(commitCurrentTransaction && CurrentTransacion != null)
+            {
+                CurrentTransacion.Commit();
+                IsTransatcionCommited = true;
+            }
         }
 
-        public DbContextTransaction BeginTransaction(IsolationLevel isolationLevel)
-        {
-            return base.Database.BeginTransaction(isolationLevel);
-        }
 
-        protected new void Dispose()
+        public new void Dispose()
         {
-            this.Disposed = true;
-            ConnectionString = null;
-
+            DisposeObjects();
             base.Dispose();
         }
-        protected override void Dispose(bool disposing)
+
+        private void DisposeObjects()
         {
-            
             this.Disposed = true;
             ConnectionString = null;
 
-            base.Dispose(disposing);
+            if(CurrentTransacion != null)
+            {
+                if(!IsTransatcionCommited)
+                    CurrentTransacion.Rollback();
+
+                CurrentTransacion.Dispose();
+            }
         }
     }
 }

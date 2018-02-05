@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
 
 namespace CustomInfra.DataBase.Simple.Repository
 {
@@ -65,10 +64,10 @@ namespace CustomInfra.DataBase.Simple.Repository
         ICollection<TEntity> GetAll();
 
         /// <summary>
-        /// Save changes on DbContext
+        /// Detect and save changes on DbContext
         /// </summary>
-        /// <param name="detectChanges">Indicates if search for changes in tracker</param>
-        void SaveChanges(bool detectChanges = false);
+        /// <param name="commitCurrentTransaction">Commit the current transaction if it was created</param>
+        void SaveChanges(bool commitCurrentTransaction = false);
 
 
         /// <summary>

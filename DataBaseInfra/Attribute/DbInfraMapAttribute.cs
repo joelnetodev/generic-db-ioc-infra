@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CustomInfra.DataBase.Simple.Attribute
+﻿namespace CustomInfra.DataBase.Simple.Attribute
 {
     /// <summary>
     /// Attribute that initiate automatic mapping

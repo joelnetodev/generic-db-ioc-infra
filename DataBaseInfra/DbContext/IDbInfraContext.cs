@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Reflection;
 
 namespace CustomInfra.DataBase.Simple.DbContext
 {
@@ -50,8 +43,8 @@ namespace CustomInfra.DataBase.Simple.DbContext
         /// <summary>
         /// Save changes on DbContext
         /// </summary>
-        /// <param name="detectChanges">Indicates if search for changes in tracker</param>
-        void SaveChanges(bool detectChanges = false);
+        /// <param name="commitCurrentTransaction">Commit the current transaction if it was created</param>
+        void SaveChanges(bool commitCurrentTransaction = false);
 
         /// <summary>
         /// DbEntity of database context
@@ -59,12 +52,5 @@ namespace CustomInfra.DataBase.Simple.DbContext
         /// <param name="obj">Ocject Entity</param>
         /// <returns></returns>
         DbEntityEntry Entry(object obj);
-
-        /// <summary>
-        /// Returns a new instance of DbContextTransaction
-        /// </summary>
-        /// <param name="isolationLevel">Transaction Isolation Level</param>
-        /// <returns></returns>
-        DbContextTransaction BeginTransaction(IsolationLevel isolationLevel);
     }
 }

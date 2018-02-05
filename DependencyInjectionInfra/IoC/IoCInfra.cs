@@ -36,7 +36,7 @@ namespace CustomInfra.Injector.Simple.IoC
         /// Initiate a new scope for 'IoCInfraLifeCycle.Scoped' type registered
         /// </summary>
         /// <returns>Simple Scope</returns>
-        public static Scope BeginScope()
+        internal static Scope BeginScope()
         {
             return AsyncScopedLifestyle.BeginScope(SimpleContainer);
         }
@@ -85,7 +85,6 @@ namespace CustomInfra.Injector.Simple.IoC
             }
 
         }
-
 
 
         /// <summary>
@@ -157,14 +156,6 @@ namespace CustomInfra.Injector.Simple.IoC
                     case IoCInfraLifeCycle.Singleton: return Lifestyle.Singleton;
                     default: return Lifestyle.Scoped;
                 }
-            }
-
-            /// <summary>
-            /// Get the instance of Simple Injector Container instead of the Custom API
-            /// </summary>
-            public static SimpleInjector.Container GetSimpleInjectorContainer
-            {
-                get { return SimpleContainer; }
             }
         }
     }
