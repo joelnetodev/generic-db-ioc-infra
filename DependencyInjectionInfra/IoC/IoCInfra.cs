@@ -25,7 +25,7 @@ namespace CustomInfra.Injector.Simple.IoC
                     if (_simpleContainer == null)
                     {
                         _simpleContainer = new SimpleInjector.Container();
-                        _simpleContainer.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+                        _simpleContainer.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
                     }
                     return _simpleContainer;
                 }             
@@ -36,9 +36,9 @@ namespace CustomInfra.Injector.Simple.IoC
         /// Initiate a new scope for 'IoCInfraLifeCycle.Scoped' type registered
         /// </summary>
         /// <returns>Simple Scope</returns>
-        internal static Scope BeginScope()
+        internal static Scope BeginWebRequestScope()
         {
-            return AsyncScopedLifestyle.BeginScope(SimpleContainer);
+            return WebRequestLifestyle.BeginScope(SimpleContainer);
         }
 
         static IoCInfra()

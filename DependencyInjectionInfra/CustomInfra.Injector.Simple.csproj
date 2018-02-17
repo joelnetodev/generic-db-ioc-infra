@@ -56,8 +56,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AspNet\WebRequestModuleRegistration.cs" />
-    <Compile Include="AspNet\WebRequestModule.cs" />
+    <Compile Include="IoC\WebRequest\WebRequestModuleRegistration.cs" />
+    <Compile Include="IoC\WebRequest\WebRequestModule.cs" />
+    <Compile Include="IoC\WebRequest\WebRequestLifestyle.cs" />
     <Compile Include="IoC\IoCInfra.cs" />
     <Compile Include="IoCInfraAssemblyLocator.cs" />
     <Compile Include="Attribute\IoCInfraRegisterAttribute.cs" />

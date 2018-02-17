@@ -25,7 +25,7 @@ namespace CustomInfra.Injector.Simple.AspNet
         /// <param name="e"></param>
         private void MvcApplication_BeginRequest(object sender, EventArgs e)
         {
-            HttpContext.Current.Items.Add(IoCInfraLifeCycle.WebRequest, IoCInfra.BeginScope());
+            HttpContext.Current.Items.Add(IoCInfraLifeCycle.WebRequest, IoCInfra.BeginWebRequestScope());
         }
 
         /// <summary>
@@ -35,15 +35,21 @@ namespace CustomInfra.Injector.Simple.AspNet
         /// <param name="e"></param>
         private void MvcApplication_EndRequest(object sender, EventArgs e)
         {
-            if (!HttpContext.Current.Items.Contains(IoCInfraLifeCycle.WebRequest)) return;
-
-            var scope = HttpContext.Current.Items[IoCInfraLifeCycle.WebRequest] as Scope;
-
-            if (scope == null) return;
-
-            scope.Dispose();
+            var scope = GetScopeInContext();
+            if(scope != null)
+                scope.Dispose();
 
             HttpContext.Current.Items.Remove(IoCInfraLifeCycle.WebRequest);
+        }
+
+        public static Scope GetScopeInContext()
+        {
+            if (HttpContext.Current.Items.Contains(IoCInfraLifeCycle.WebRequest))
+            {
+                return HttpContext.Current.Items[IoCInfraLifeCycle.WebRequest] as Scope;
+            }
+
+            return null;
         }
 
         public void Dispose()
