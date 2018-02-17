@@ -10,11 +10,6 @@ namespace CustomInfra.DataBase.Simple.DbContext
     public interface IDbInfraContext : IDisposable
     {
         /// <summary>
-        /// Indicates if the DbContext has been disposed
-        /// </summary>
-        bool Disposed { get; }
-
-        /// <summary>
         /// Connection string name
         /// </summary>
         string ConnectionString { get; }

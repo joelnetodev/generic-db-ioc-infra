@@ -13,10 +13,6 @@ namespace CustomInfra.DataBase.Simple.DbContext
     public class DbInfraContext : System.Data.Entity.DbContext, IDbInfraContext
     {
         /// <summary>
-        /// Indicates if the DbContext Object has been disposed
-        /// </summary>
-        public bool Disposed { get; private set; }
-        /// <summary>
         /// Returns the Connction String name of DbContext
         /// </summary>
         public string ConnectionString { get; private set; }
@@ -88,7 +84,7 @@ namespace CustomInfra.DataBase.Simple.DbContext
             base.ChangeTracker.DetectChanges();
             base.SaveChanges();
 
-            if(commitCurrentTransaction && CurrentTransacion != null)
+            if (commitCurrentTransaction && CurrentTransacion != null)
             {
                 CurrentTransacion.Commit();
                 IsTransatcionCommited = true;
@@ -104,7 +100,6 @@ namespace CustomInfra.DataBase.Simple.DbContext
 
         private void DisposeObjects()
         {
-            this.Disposed = true;
             ConnectionString = null;
 
             if(CurrentTransacion != null)
@@ -113,6 +108,7 @@ namespace CustomInfra.DataBase.Simple.DbContext
                     CurrentTransacion.Rollback();
 
                 CurrentTransacion.Dispose();
+                CurrentTransacion = null;
             }
         }
     }

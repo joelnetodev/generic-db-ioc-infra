@@ -14,16 +14,11 @@ namespace CustomInfra.DataBase.Simple.Repository
     /// <typeparam name="TEntity">Entity</typeparam>
     public class DbInfraRepository<TEntity> : IDbInfraRepository<TEntity> where TEntity : class
     {
-        private IDbInfraContext _dbContext;
-
-        private IDbInfraContext DbContext
+        protected IDbInfraContext DbContext
         {
             get
             {
-                if (_dbContext == null || _dbContext.Disposed)
-                    _dbContext = IoCInfra.Container.GetInstance<IDbInfraContext>();
-
-                return _dbContext;
+                return IoCInfra.Container.GetInstance<IDbInfraContext>();
             }
         }
 
@@ -36,10 +31,7 @@ namespace CustomInfra.DataBase.Simple.Repository
         {
             get
             {
-                if (_dbEntity == null || _dbContext == null || _dbContext.Disposed)
-                    _dbEntity = DbContext.Set<TEntity>();
-
-                return _dbEntity;
+                return DbContext.Set<TEntity>();
             }
         }
 

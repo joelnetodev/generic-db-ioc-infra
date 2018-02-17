@@ -9,16 +9,11 @@ namespace CustomInfra.DataBase.Simple.Repository
     /// </summary>
     public class DbInfraRepository
     {
-        private IDbInfraContext _dbContext;
-
-        private IDbInfraContext DbContext
+        protected IDbInfraContext DbContext
         {
             get
             {
-                if (_dbContext == null || _dbContext.Disposed)
-                    _dbContext = IoCInfra.Container.GetInstance<IDbInfraContext>();
-
-                return _dbContext;
+                return IoCInfra.Container.GetInstance<IDbInfraContext>();
             }
         }
 
