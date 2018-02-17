@@ -14,7 +14,7 @@ namespace CustomInfra.DataBase.Simple.Repository
     /// <typeparam name="TEntity">Entity</typeparam>
     public class DbInfraRepository<TEntity> : IDbInfraRepository<TEntity> where TEntity : class
     {
-        protected IDbInfraContext DbContext
+        private IDbInfraContext DbContext
         {
             get
             {
@@ -22,10 +22,8 @@ namespace CustomInfra.DataBase.Simple.Repository
             }
         }
 
-
-        private DbSet<TEntity> _dbEntity;
         /// <summary>
-        /// Entity of respository 
+        /// Entity of respository from current DbContext
         /// </summary>
         protected DbSet<TEntity> DbEntity
         {

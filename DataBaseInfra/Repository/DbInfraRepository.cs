@@ -9,7 +9,7 @@ namespace CustomInfra.DataBase.Simple.Repository
     /// </summary>
     public class DbInfraRepository
     {
-        protected IDbInfraContext DbContext
+        private IDbInfraContext DbContext
         {
             get
             {

@@ -14,12 +14,12 @@ namespace CustomInfra.Injector.Simple.IoC
         
         protected override Func<Scope> CreateCurrentScopeProvider(Container container)
         {
-            return () => { return WebRequestModule.GetScopeInContext(); };
+            return () => { return GetCurrentScopeCore(container); };
         }
 
         protected override Scope GetCurrentScopeCore(Container container)
         {
-            return WebRequestModule.GetScopeInContext();
+            return WebRequestModule.GetScopeFromHttpContext();
         }
 
         internal static Scope BeginScope(Container container)

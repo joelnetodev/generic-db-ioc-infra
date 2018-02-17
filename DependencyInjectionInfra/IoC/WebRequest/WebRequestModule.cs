@@ -35,14 +35,14 @@ namespace CustomInfra.Injector.Simple.AspNet
         /// <param name="e"></param>
         private void MvcApplication_EndRequest(object sender, EventArgs e)
         {
-            var scope = GetScopeInContext();
+            var scope = GetScopeFromHttpContext();
             if(scope != null)
                 scope.Dispose();
 
             HttpContext.Current.Items.Remove(IoCInfraLifeCycle.WebRequest);
         }
 
-        public static Scope GetScopeInContext()
+        public static Scope GetScopeFromHttpContext()
         {
             if (HttpContext.Current.Items.Contains(IoCInfraLifeCycle.WebRequest))
             {
