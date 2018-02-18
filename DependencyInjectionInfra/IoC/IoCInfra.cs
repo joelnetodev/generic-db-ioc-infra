@@ -96,16 +96,17 @@ namespace CustomInfra.Injector.Simple.IoC
             /// <summary>
             /// Register a interface and implementation in container
             /// </summary>
-            /// <typeparam name="T1"></typeparam>
-            /// <typeparam name="T2"></typeparam>
-            /// <param name="objs">Constructor parameter</param>
+            /// <typeparam name="T1">Interface</typeparam>
+            /// <typeparam name="T2">Implementation</typeparam>
+            /// <param name="args">Parameters of contructor</param>
             /// <param name="life">Lifecycle of the instance</param>
-            public static void Register<T1, T2>(IoCInfraLifeCycle life = IoCInfraLifeCycle.Singleton, params object[] objs)
+            public static void Register<T1, T2>(IoCInfraLifeCycle life = IoCInfraLifeCycle.Singleton, params object[] args)
                 where T1 : class
                 where T2 : class
             {
-                SimpleContainer.Register<T1>(() => (T1)Activator.CreateInstance(typeof(T2), objs), ChooseLife(life));
+                SimpleContainer.Register<T1>(() => (T1)Activator.CreateInstance(typeof(T2), args), ChooseLife(life));
             }
+
             /// <summary>
             /// Register a interface and implementation in container
             /// </summary>
@@ -118,6 +119,7 @@ namespace CustomInfra.Injector.Simple.IoC
             {
                 SimpleContainer.Register(typeof(T1), typeof(T2), ChooseLife(life));
             }
+
             /// <summary>
             /// Register a interface and implementation in container
             /// </summary>
@@ -130,6 +132,18 @@ namespace CustomInfra.Injector.Simple.IoC
             }
 
             /// <summary>
+            /// Register a interface and implementation in container
+            /// </summary>
+            /// <param name="T1">Interface</param>
+            /// <param name="T2">implementation</param>
+            /// <param name="life">Lifecycle of the instance</param>
+            /// <param name="args">Parameters of contructor</param>
+            public static void Register(Type T1, Type T2, IoCInfraLifeCycle life = IoCInfraLifeCycle.Singleton, params object[] args)
+            {
+                SimpleContainer.Register(T1, () => Activator.CreateInstance(T2, args), ChooseLife(life));
+            }
+
+            /// <summary>
             /// Get instance in container
             /// </summary>
             /// <typeparam name="T">Interface</typeparam>
@@ -138,6 +152,7 @@ namespace CustomInfra.Injector.Simple.IoC
             {
                 return SimpleContainer.GetInstance<T>();
             }
+
             /// <summary>
             /// Get instance in container
             /// </summary>
